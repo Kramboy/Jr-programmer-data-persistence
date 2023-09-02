@@ -15,7 +15,8 @@ public class MenuUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (GameManager.Instance.bestPlayer != "") highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highestScore}";
+        GameManager.Instance.Load();
+        if (GameManager.Instance.bestPlayer != "") highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highScore}";
         else highestScoreText.text = "No highscore set";
     }
 
@@ -31,6 +32,7 @@ public class MenuUIManager : MonoBehaviour
 
     public void QuitGame()
     {
+        GameManager.Instance.Save();
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #endif
