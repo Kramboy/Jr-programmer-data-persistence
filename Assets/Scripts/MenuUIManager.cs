@@ -1,16 +1,32 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class MenuUIManager : MonoBehaviour
 {
-    private string mainScene = "main";
+    [SerializeField] private Text highestScoreText;
+    [SerializeField] private InputField inputName;
+
+    private string mainSceneName = "main";
+
+
+    private void Awake()
+    {
+        if (GameManager.Instance.bestPlayer != "") highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highestScore}";
+        else highestScoreText.text = "No highscore set";
+    }
 
     public void StartGame()
     {
-        SceneManager.LoadScene(mainScene);
+        if (inputName.text != "")
+        {
+            GameManager.Instance.currentPlayer = inputName.text;
+            SceneManager.LoadScene(mainSceneName);
+        }
+        else inputName.text = "NO NAME";
     }
 
     public void QuitGame()

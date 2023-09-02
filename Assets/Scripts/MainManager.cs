@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,6 +10,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    [SerializeField] private Text highestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -18,10 +18,16 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    private string mainMenuSceneName = "menu";
+    private string playerName;
+
     
     // Start is called before the first frame update
     void Start()
     {
+        playerName = GameManager.Instance.currentPlayer;
+        highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highestScore}";
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -59,6 +65,10 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(mainMenuSceneName);
+            }
         }
     }
 
@@ -66,6 +76,12 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        if (m_Points > GameManager.Instance.highestScore)
+        {
+            GameManager.Instance.highestScore = m_Points;
+            GameManager.Instance.bestPlayer = playerName;
+        }
+        highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highestScore}";
     }
 
     public void GameOver()
