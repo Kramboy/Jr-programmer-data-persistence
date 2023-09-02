@@ -6,9 +6,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public int highScore;
-    public string bestPlayer;
+    public int highScore1;
+    public int highScore2;
+    public int highScore3;
     public string currentPlayer;
+    public string bestPlayer1;
+    public string bestPlayer2;
+    public string bestPlayer3;
 
     private void Awake()
     {
@@ -23,15 +27,23 @@ public class GameManager : MonoBehaviour
 
     class SaveData
     {
-        public string bestPlayer;
-        public int highScore;
+        public string bestPlayer1;
+        public string bestPlayer2;
+        public string bestPlayer3;
+        public int highScore1;
+        public int highScore2;
+        public int highScore3;
     }
 
     public void Save()
     {
         SaveData data = new();
-        data.bestPlayer = bestPlayer;
-        data.highScore = highScore;
+        data.bestPlayer1 = bestPlayer1;
+        data.bestPlayer2 = bestPlayer2;
+        data.bestPlayer3 = bestPlayer3;
+        data.highScore1 = highScore1;
+        data.highScore2 = highScore2;
+        data.highScore3 = highScore3;
 
         string json = JsonUtility.ToJson(data);
 
@@ -46,8 +58,12 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            bestPlayer = data.bestPlayer;
-            highScore = data.highScore;
+            bestPlayer1 = data.bestPlayer1;
+            bestPlayer2 = data.bestPlayer2;
+            bestPlayer3 = data.bestPlayer3;
+            highScore1 = data.highScore1;
+            highScore2 = data.highScore2;
+            highScore3 = data.highScore3;
         }
     }
 }

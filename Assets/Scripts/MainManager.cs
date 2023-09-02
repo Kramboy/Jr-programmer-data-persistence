@@ -26,7 +26,7 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         playerName = GameManager.Instance.currentPlayer;
-        highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highScore}";
+        highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer1} = {GameManager.Instance.highScore1}";
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -77,16 +77,35 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
-        if (m_Points > GameManager.Instance.highScore)
-        {
-            GameManager.Instance.highScore = m_Points;
-            GameManager.Instance.bestPlayer = playerName;
-        }
-        highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highScore}";
     }
 
     public void GameOver()
     {
+        if (m_Points > GameManager.Instance.highScore1)
+        {
+            GameManager.Instance.bestPlayer3 = GameManager.Instance.bestPlayer2;
+            GameManager.Instance.highScore3 = GameManager.Instance.highScore2;
+
+            GameManager.Instance.bestPlayer2 = GameManager.Instance.bestPlayer1;
+            GameManager.Instance.highScore2 = GameManager.Instance.highScore1;
+
+            GameManager.Instance.bestPlayer1 = playerName;
+            GameManager.Instance.highScore1 = m_Points;
+        }
+        else if (m_Points > GameManager.Instance.highScore2)
+        {
+            GameManager.Instance.bestPlayer3 = GameManager.Instance.bestPlayer2;
+            GameManager.Instance.highScore3 = GameManager.Instance.highScore2;
+
+            GameManager.Instance.bestPlayer2 = playerName;
+            GameManager.Instance.highScore2 = m_Points;
+        }
+        else if (m_Points > GameManager.Instance.highScore3)
+        {
+            GameManager.Instance.bestPlayer3 = playerName;
+            GameManager.Instance.highScore3 = m_Points;
+        }
+
         m_GameOver = true;
         GameOverText.SetActive(true);
     }

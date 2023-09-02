@@ -10,14 +10,20 @@ public class MenuUIManager : MonoBehaviour
     [SerializeField] private Text highestScoreText;
     [SerializeField] private InputField inputName;
 
-    private string mainSceneName = "main";
+    private int mainSceneIndex = 1;
+    private int highScoreSceneIndex = 2;
 
 
     private void Awake()
     {
         GameManager.Instance.Load();
-        if (GameManager.Instance.bestPlayer != "") highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer} = {GameManager.Instance.highScore}";
+        if (GameManager.Instance.bestPlayer1 != "") highestScoreText.text = $"Highest Score: {GameManager.Instance.bestPlayer1} = {GameManager.Instance.highScore1}";
         else highestScoreText.text = "No highscore set";
+    }
+
+    public void ViewHighScores()
+    {
+        SceneManager.LoadScene(highScoreSceneIndex);
     }
 
     public void StartGame()
@@ -25,7 +31,7 @@ public class MenuUIManager : MonoBehaviour
         if (inputName.text != "")
         {
             GameManager.Instance.currentPlayer = inputName.text;
-            SceneManager.LoadScene(mainSceneName);
+            SceneManager.LoadScene(mainSceneIndex);
         }
         else inputName.text = "NO NAME";
     }
